@@ -44,5 +44,5 @@
     "typescript-eslint": "^8.11.0",
     "vite": "^5.4.10"
   },
-  "packageManager": "yarn@4.2.2+sha224.1e50daf19e5e249a025569752c60b88005fddf57d10fcde5fc68b88f"
+  "packageManager": "yarn@1.22.22"
 }
