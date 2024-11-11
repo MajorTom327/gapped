@@ -4,6 +4,7 @@ import './index.css'
 import App from './App.tsx'
 import {RouterProvider} from "react-router";
 import {createBrowserRouter} from "react-router-dom";
+import {TooltipProvider} from "~/components/ui/tooltip.tsx";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,9 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router}/>
+    <TooltipProvider>
+
+      <RouterProvider router={router}/>
+    </TooltipProvider>
   </StrictMode>,
 )

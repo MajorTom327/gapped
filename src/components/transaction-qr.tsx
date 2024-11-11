@@ -1,10 +1,10 @@
 import {QRCodeSVG} from "qrcode.react";
-import {useMemo} from "react";
+import {useMemo, useState} from "react";
 import {z} from "zod";
 import {isEmpty} from "rambda";
 
 import {ethers} from "ethers"
-import {Popover, PopoverContent, PopoverTrigger} from "./ui/popover";
+import {Tooltip, TooltipContent, TooltipTrigger} from "~/components/ui/tooltip.tsx";
 
 export const transactionQRCodeParamsSchema = z.object({
   recipient: z.string().min(1).default(""),
@@ -13,9 +13,9 @@ export const transactionQRCodeParamsSchema = z.object({
   message: z.string().optional()
 })
 
-type TransactionQRCodeParams = { size?: number } & z.infer<typeof transactionQRCodeParamsSchema>
+type TransactionQRCodeParams = z.infer<typeof transactionQRCodeParamsSchema>
 
-export const TransactionQr: React.FC<TransactionQRCodeParams> = ({size = 255, ...props}) => {
+export const TransactionQr: React.FC<TransactionQRCodeParams> = ({...props}) => {
   const value = useMemo(() => {
     const validated = transactionQRCodeParamsSchema.safeParse(props);
     if (!validated.success) return '';
@@ -29,6 +29,11 @@ export const TransactionQr: React.FC<TransactionQRCodeParams> = ({size = 255, ..
 
     return `ethereum:${data.recipient}?${sp.toString()}`;
   }, [props]);
+  const [enlarged, setEnlarged] = useState(false);
+
+  const onClick = () => {
+    setEnlarged(!enlarged);
+  }
 
 
   return (<>
@@ -37,18 +42,23 @@ export const TransactionQr: React.FC<TransactionQRCodeParams> = ({size = 255, ..
         Code</div> :
       <>
         <div className="flex flex-col items-center justify-center gap-2">
-          <Popover>
-            <PopoverTrigger>
-              <QRCodeSVG
-                size={size}
-                value={value}
-                level={"H"}
-                marginSize={4}
-              />
 
-            </PopoverTrigger>
-            <PopoverContent className={"overflow-y-auto"}>{value}</PopoverContent>
-          </Popover>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button className={"w-full h-full flex items-center justify-center p-2"} onClick={onClick}>
+                <QRCodeSVG
+                  size={enlarged ? 512 : 256}
+                  value={value}
+                  level={"H"}
+                  marginSize={4}
+                />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{value}</p>
+            </TooltipContent>
+          </Tooltip>
+
 
         </div>
       </>

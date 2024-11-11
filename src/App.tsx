@@ -1,12 +1,10 @@
-import {ChangeEvent, useState} from 'react'
+import {ChangeEvent} from 'react'
 import {Card, CardContent, CardHeader, CardTitle} from "~/components/ui/card.tsx";
 import {Label} from './components/ui/label';
 import {Input} from "~/components/ui/input.tsx";
 import {TransactionQr} from "~/components/transaction-qr.tsx";
 import {useParsedSearchParams} from "~/hooks/useParsedSearchParams.tsx";
 import {z} from "zod";
-import {Button} from "~/components/ui/button.tsx";
-import {Expand, Shrink} from 'lucide-react';
 import {Footer} from "~/components/footer.tsx";
 
 export const searchParamsSchema = z.object({
@@ -25,7 +23,6 @@ function App() {
     message: ""
   });
 
-  const [enlarged, setEnlarged] = useState(false);
 
   const onUpdate = (key: string) => (e: ChangeEvent<HTMLInputElement>) => {
     setSearchParams(key, e.target.value)
@@ -74,16 +71,12 @@ function App() {
 
 
           <Card className={"md:col-span-3 group"}>
-            <CardHeader className={"flex flex-row gap-2 justify-between items-center"}>
+            <CardHeader>
               <CardTitle>QR Code</CardTitle>
-              <Button size={"icon"} variant={"ghost"} onClick={() => setEnlarged(!enlarged)}
-                      className={"transition-opacity opacity-20 group-hover:opacity-100"}>
-                {enlarged ? <Shrink/> : <Expand/>}
-              </Button>
 
             </CardHeader>
             <CardContent>
-              <TransactionQr {...searchParams} size={enlarged ? 512 : 256}/>
+              <TransactionQr {...searchParams}/>
             </CardContent>
           </Card>
         </div>
