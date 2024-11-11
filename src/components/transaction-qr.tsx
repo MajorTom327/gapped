@@ -13,9 +13,9 @@ export const transactionQRCodeParamsSchema = z.object({
   message: z.string().optional()
 })
 
-type TransactionQRCodeParams = z.infer<typeof transactionQRCodeParamsSchema>
+type TransactionQRCodeParams = { size?: number } & z.infer<typeof transactionQRCodeParamsSchema>
 
-export const TransactionQr: React.FC<TransactionQRCodeParams> = (props) => {
+export const TransactionQr: React.FC<TransactionQRCodeParams> = ({size = 255, ...props}) => {
   const value = useMemo(() => {
     const validated = transactionQRCodeParamsSchema.safeParse(props);
     if (!validated.success) return '';
@@ -40,7 +40,7 @@ export const TransactionQr: React.FC<TransactionQRCodeParams> = (props) => {
           <Popover>
             <PopoverTrigger>
               <QRCodeSVG
-                size={256}
+                size={size}
                 value={value}
                 level={"H"}
                 marginSize={4}
