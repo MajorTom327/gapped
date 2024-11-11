@@ -1,17 +1,32 @@
-import {useState} from 'react'
+import {ChangeEvent} from 'react'
 import {Card, CardContent, CardHeader, CardTitle} from "~/components/ui/card.tsx";
 import {Label} from './components/ui/label';
 import {Input} from "~/components/ui/input.tsx";
-import {assoc} from "rambda";
 import {TransactionQr} from "~/components/transaction-qr.tsx";
+import {useParsedSearchParams} from "~/hooks/useParsedSearchParams.tsx";
+import {z} from "zod";
+
+export const searchParamsSchema = z.object({
+  recipient: z.string().min(1).default(""),
+  amount: z.string().regex(/^[0-9]+(.[0-9]+)?$/).default("1"),
+  label: z.string().optional(),
+  message: z.string().optional()
+})
+
 
 function App() {
-  const [formData, setFormData] = useState({
+  const [searchParams, setSearchParams] = useParsedSearchParams(searchParamsSchema, {
     recipient: "",
     amount: "0",
     label: "",
     message: ""
   });
+
+  const onUpdate = (key: string) => (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchParams(key, e.target.value)
+  }
+
+
   return (
     <>
 
@@ -25,25 +40,25 @@ function App() {
 
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="recipient">Recipient</Label>
-                <Input id="recipient" placeholder={"Recipient"} value={formData.recipient}
-                       onChange={(e) => setFormData(assoc('recipient', e.target.value))}/>
+                <Input id="recipient" placeholder={"Recipient"} value={searchParams.recipient}
+                       onChange={onUpdate('recipient')}/>
               </div>
 
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="amount">Amount</Label>
-                <Input id={"amount"} placeholder={"Amount"} value={formData.amount}
-                       onChange={(e) => setFormData(assoc('amount', e.target.value))}/>
+                <Input id={"amount"} placeholder={"Amount"} value={searchParams.amount}
+                       onChange={onUpdate("amount")}/>
               </div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="label">Label</Label>
-                <Input id="label" placeholder={"Label"} value={formData.label}
-                       onChange={(e) => setFormData(assoc('label', e.target.value))}/>
+                <Input id="label" placeholder={"Label"} value={searchParams.label}
+                       onChange={onUpdate('label')}/>
               </div>
 
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="message">Message to attach</Label>
-                <Input id="message" placeholder={"Message"} value={formData.message}
-                       onChange={(e) => setFormData(assoc('message', e.target.value))}/>
+                <Input id="message" placeholder={"Message"} value={searchParams.message}
+                       onChange={onUpdate('message')}/>
               </div>
             </div>
 
@@ -56,9 +71,7 @@ function App() {
             <CardTitle>QR Code</CardTitle>
           </CardHeader>
           <CardContent>
-            {/* @ts-expect-error don't mind the types for now */}
-            <TransactionQr {...formData}/>
-
+            <TransactionQr {...searchParams}/>
           </CardContent>
         </Card>
       </div>
