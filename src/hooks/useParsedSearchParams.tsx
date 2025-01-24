@@ -13,8 +13,6 @@ export const useParsedSearchParams = (
     console.warn(`Invalid search params: ${parsedValue.error}`);
   }
 
-  console.log(parsedValue, input);
-
   const value = parsedValue?.data ?? defaultValues;
 
   const setValue = (key: string, value: string) => {
