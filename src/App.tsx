@@ -11,6 +11,7 @@ import {
 import { Input } from "~/components/ui/input.tsx";
 import { useParsedSearchParams } from "~/hooks/useParsedSearchParams.tsx";
 import { Label } from "./components/ui/label";
+import { AmountRegex } from "./const";
 
 const searchParamsSchema = z.object({
   recipient: z.string().min(1).default(""),
@@ -19,8 +20,8 @@ const searchParamsSchema = z.object({
     .optional()
     .default("0")
     .transform((val) => (val.length > 0 ? val : "0"))
-    .refine((val) => val === "0" || /^[0-9]+(.[0-9]+)?$/.test(val), {
-      message: "Invalid amount format",
+    .refine((val) => val === "0" || AmountRegex.test(val), {
+      message: "Invalid amount format t",
     }),
   label: z.string().optional(),
   message: z.string().optional(),

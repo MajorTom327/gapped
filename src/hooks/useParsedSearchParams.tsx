@@ -7,10 +7,13 @@ export const useParsedSearchParams = (
 ) => {
   const [params, setParams] = useSearchParams(defaultValues);
 
-  const parsedValue = schema.safeParse(Object.fromEntries(params.entries()));
+  const input = Object.fromEntries(params.entries());
+  const parsedValue = schema.safeParse(input);
   if (!parsedValue.success) {
     console.warn(`Invalid search params: ${parsedValue.error}`);
   }
+
+  console.log(parsedValue, input);
 
   const value = parsedValue?.data ?? defaultValues;
 

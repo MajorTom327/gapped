@@ -14,10 +14,11 @@ const transactionQRCodeParamsSchema = z.object({
   recipient: z.string().min(1).default(""),
   amount: z
     .string()
-    .regex(/^[0-9]+(.[0-9]+)?$/)
     .optional()
     .default("0")
-    .transform((v) => ethers.utils.parseUnits(v ?? "0", "ether")),
+    .transform((val) =>
+      ethers.utils.parseUnits(val.length > 0 ? val : "0", "ether")
+    ),
   label: z.string().optional(),
   message: z.string().optional(),
 });
