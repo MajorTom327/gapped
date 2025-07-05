@@ -1,23 +1,10 @@
-import { useQueryState } from "nuqs";
 
-import { createParser } from 'nuqs'
-import { AmountRegex } from "~/const";
- 
-const bigNumberParser = createParser({
-  parse(queryValue) {
-    const isValid = AmountRegex.test(queryValue)
-    
-    if (!isValid) return null
-    return queryValue
-  },
-  serialize(value) {
-    return value
-  }
-})
+import { useQueryState, parseAsString } from "nuqs";
 
 export const useAmount = () => {
-    return useQueryState(
+
+  return useQueryState(
     "amount",
-    bigNumberParser.withDefault("0.0001"),
+    parseAsString.withDefault("0.001"),
   );
 }

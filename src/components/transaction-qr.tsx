@@ -23,11 +23,14 @@ const transactionQRCodeParamsSchema = z.object({
   message: z.string().optional(),
 });
 
-type TransactionQRCodeParams = z.infer<typeof transactionQRCodeParamsSchema>;
+type TransactionQRCodeParams = Omit<z.infer<typeof transactionQRCodeParamsSchema>, 'amount'> & {
+  amount: string
+}
 
 export const TransactionQr: React.FC<TransactionQRCodeParams> = ({
   ...props
 }) => {
+
   const value = useMemo(() => {
     const validated = transactionQRCodeParamsSchema.safeParse(props);
 
