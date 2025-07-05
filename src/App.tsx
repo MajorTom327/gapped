@@ -23,7 +23,7 @@ function App() {
   return (
     <>
       <div className="flex flex-col h-full min-h-screen">
-        <div className="grow grid sm:grid-cols-2 md:grid-cols-4 gap-2 p-4 ">
+        <div className="grow flex flex-col-reverse justify-end sm:flex-none sm:block sm:grid sm:grid-cols-2 md:grid-cols-4 gap-2 p-4 ">
           <Card>
             <CardHeader>
               <CardTitle>Configure your QR Code</CardTitle>
