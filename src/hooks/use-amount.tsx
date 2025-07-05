@@ -1,5 +1,4 @@
-import { BigNumber } from "ethers";
-import { parseAsInteger, useQueryState } from "nuqs";
+import { useQueryState } from "nuqs";
 
 import { createParser } from 'nuqs'
 import { AmountRegex } from "~/const";

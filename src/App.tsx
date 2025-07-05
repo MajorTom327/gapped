@@ -12,6 +12,7 @@ import { useRecipient } from "./hooks/use-recipient";
 import { useAmount } from "./hooks/use-amount";
 import { useMessage } from "./hooks/use-message";
 import { useLabel } from "./hooks/use-label";
+import { BigNumber } from "ethers";
 
 function App() {
   const [recipient, setRecipient] = useRecipient();
@@ -77,7 +78,7 @@ function App() {
               <CardTitle>QR Code</CardTitle>
             </CardHeader>
             <CardContent>
-              <TransactionQr amount={amount} recipient={recipient} label={label} message={message} />
+              <TransactionQr amount={BigNumber.from(amount)} recipient={recipient} label={label} message={message} />
             </CardContent>
           </Card>
         </div>
