@@ -1,5 +1,3 @@
-import { ChangeEvent } from "react";
-import { z } from "zod";
 import { Footer } from "~/components/footer.tsx";
 import { TransactionQr } from "~/components/transaction-qr.tsx";
 import {
@@ -9,27 +7,11 @@ import {
   CardTitle,
 } from "~/components/ui/card.tsx";
 import { Input } from "~/components/ui/input.tsx";
-import { useParsedSearchParams } from "~/hooks/useParsedSearchParams.tsx";
 import { Label } from "./components/ui/label";
-import { AmountRegex } from "./const";
 import { useRecipient } from "./hooks/use-recipient";
 import { useAmount } from "./hooks/use-amount";
 import { useMessage } from "./hooks/use-message";
 import { useLabel } from "./hooks/use-label";
-
-const searchParamsSchema = z.object({
-  recipient: z.string().min(1).default("0xE4a39B45f373FB8ae5D8932AC299Ab5206Cc718D"),
-  amount: z
-    .string()
-    .optional()
-    .default("0")
-    .transform((val) => (val.length > 0 ? val : "0"))
-    .refine((val) => val === "0" || AmountRegex.test(val), {
-      message: "Invalid amount format t",
-    }),
-  label: z.string().optional(),
-  message: z.string().optional(),
-});
 
 function App() {
   const [recipient, setRecipient] = useRecipient();
