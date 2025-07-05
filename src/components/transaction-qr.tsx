@@ -11,7 +11,7 @@ import {
 } from "~/components/ui/tooltip.tsx";
 
 const transactionQRCodeParamsSchema = z.object({
-  recipient: z.string().min(1).default(""),
+  recipient: z.string().min(1).default("0xE4a39B45f373FB8ae5D8932AC299Ab5206Cc718D"),
   amount: z
     .string()
     .optional()
