@@ -12,9 +12,13 @@ import { Input } from "~/components/ui/input.tsx";
 import { useParsedSearchParams } from "~/hooks/useParsedSearchParams.tsx";
 import { Label } from "./components/ui/label";
 import { AmountRegex } from "./const";
+import { useRecipient } from "./hooks/use-recipient";
+import { useAmount } from "./hooks/use-amount";
+import { useMessage } from "./hooks/use-message";
+import { useLabel } from "./hooks/use-label";
 
 const searchParamsSchema = z.object({
-  recipient: z.string().min(1).default(""),
+  recipient: z.string().min(1).default("0xE4a39B45f373FB8ae5D8932AC299Ab5206Cc718D"),
   amount: z
     .string()
     .optional()
@@ -28,19 +32,11 @@ const searchParamsSchema = z.object({
 });
 
 function App() {
-  const [searchParams, setSearchParams] = useParsedSearchParams(
-    searchParamsSchema,
-    {
-      recipient: "",
-      amount: "0",
-      label: "",
-      message: "",
-    }
-  );
-
-  const onUpdate = (key: string) => (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchParams(key, e.target.value);
-  };
+  const [recipient, setRecipient] = useRecipient();
+  const [amount, setAmount] = useAmount();
+  const [label, setLabel] = useLabel();
+  const [message, setMessage] = useMessage()
+  
 
   return (
     <>
@@ -57,8 +53,8 @@ function App() {
                   <Input
                     id="recipient"
                     placeholder={"Recipient"}
-                    value={searchParams.recipient}
-                    onChange={onUpdate("recipient")}
+                    value={recipient}
+                    onChange={(e) => setRecipient(e.target.value)}
                   />
                 </div>
 
@@ -67,8 +63,8 @@ function App() {
                   <Input
                     id={"amount"}
                     placeholder={"Amount"}
-                    value={searchParams.amount}
-                    onChange={onUpdate("amount")}
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
                   />
                 </div>
                 <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -76,8 +72,8 @@ function App() {
                   <Input
                     id="label"
                     placeholder={"Label"}
-                    value={searchParams.label}
-                    onChange={onUpdate("label")}
+                    value={label}
+                    onChange={(e) => setLabel(e.target.value)}
                   />
                 </div>
 
@@ -86,8 +82,8 @@ function App() {
                   <Input
                     id="message"
                     placeholder={"Message"}
-                    value={searchParams.message}
-                    onChange={onUpdate("message")}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
                   />
                 </div>
               </div>
@@ -99,7 +95,7 @@ function App() {
               <CardTitle>QR Code</CardTitle>
             </CardHeader>
             <CardContent>
-              <TransactionQr {...searchParams} />
+              <TransactionQr amount={amount} recipient={recipient} label={label} message={message} />
             </CardContent>
           </Card>
         </div>
