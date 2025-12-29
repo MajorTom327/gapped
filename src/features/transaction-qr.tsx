@@ -1,8 +1,7 @@
-import { ethers } from "ethers";
+import { parseUnits } from "ethers/utils";
 import { QRCodeSVG } from "qrcode.react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { z } from "zod";
-import { Button } from "~/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -16,9 +15,7 @@ const transactionQRCodeParamsSchema = z.object({
     .string()
     .optional()
     .default("0")
-    .transform((val) =>
-      ethers.utils.parseUnits(val.length > 0 ? val : "0", "ether"),
-    ),
+    .transform((val) => parseUnits(val.length > 0 ? val : "0", "ether")),
   label: z.string().optional(),
   message: z.string().optional(),
 });
@@ -30,23 +27,23 @@ type TransactionQRCodeParams = Omit<
   amount: string;
 };
 
-export const TransactionQr: React.FC<TransactionQRCodeParams> = ({
-  ...props
-}) => {
-  const value = useMemo(() => {
-    const validated = transactionQRCodeParamsSchema.safeParse(props);
+const useQrValue = (props: TransactionQRCodeParams) => {
+  const validated = transactionQRCodeParamsSchema.safeParse(props);
 
-    if (!validated.success) return "";
+  if (!validated.success) return "";
 
-    const data = validated.data;
-    const sp = new URLSearchParams();
+  const data = validated.data;
+  const sp = new URLSearchParams();
 
-    sp.append("value", (data.amount ?? 0).toString());
-    if (data.label) sp.append("label", data.label);
-    if (data.message) sp.append("message", data.message);
+  sp.append("value", (data.amount ?? 0).toString());
+  if (data.label) sp.append("label", data.label);
+  if (data.message) sp.append("message", data.message);
 
-    return `ethereum:${data.recipient}?${sp.toString()}`;
-  }, [props]);
+  return `ethereum:${data.recipient}?${sp.toString()}`;
+};
+
+export const TransactionQr = (props: TransactionQRCodeParams) => {
+  const value = useQrValue(props);
   const [enlarged, setEnlarged] = useState(false);
 
   const onClick = () => {
@@ -64,9 +61,9 @@ export const TransactionQr: React.FC<TransactionQRCodeParams> = ({
           <Tooltip>
             <TooltipTrigger asChild>
               <button
-                role="button"
+                type="button"
                 className={
-                  "flex h-full w-full items-center justify-center p-2 outline-none focus:ring-4 ring-primary rounded-2xl"
+                  "flex h-full w-full items-center justify-center rounded-2xl p-2 outline-none ring-primary focus:ring-4"
                 }
                 onClick={onClick}
               >
