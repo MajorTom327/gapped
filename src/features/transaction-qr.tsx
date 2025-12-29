@@ -9,9 +9,10 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "~/components/ui/tooltip.tsx";
+import { BASE_ADDRESS } from "~/lib/constants";
 
 const transactionQRCodeParamsSchema = z.object({
-  recipient: z.string().min(1).default("0xE4a39B45f373FB8ae5D8932AC299Ab5206Cc718D"),
+  recipient: z.string().min(1).default(BASE_ADDRESS),
   amount: z
     .string()
     .optional()
