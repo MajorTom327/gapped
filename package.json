@@ -4,9 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "bun --hot ./index.html",
-    "build": "bun build --minify --production ./index.html --outdir=dist",
-    "format": "bun x biome lint --fix"
+    "dev": "bun --hot ./src/index.html",
+    "build": "bun ./.bin/build.ts",
+    "format": "bun x biome lint --fix",
+    "serve": "bun ./dist/index.html"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.8",
