@@ -1,3 +1,4 @@
+import { Field, FieldGroup, FieldLabel } from "~/components/ui/field";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { useAmount } from "~/hooks/use-amount";
@@ -12,45 +13,45 @@ export const TransactionForm = () => {
   const [message, setMessage] = useMessage();
 
   return (
-    <div className="flex flex-col items-center gap-4">
-      <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="recipient">Recipient</Label>
+    <FieldGroup className="flex flex-col items-center gap-4">
+      <Field>
+        <FieldLabel htmlFor="recipient">Recipient</FieldLabel>
         <Input
           id="recipient"
           placeholder={"Recipient"}
           value={recipient}
           onChange={(e) => setRecipient(e.target.value)}
         />
-      </div>
+      </Field>
 
-      <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="amount">Amount</Label>
+      <Field>
+        <FieldLabel htmlFor="amount">Amount</FieldLabel>
         <Input
           id={"amount"}
           placeholder={"Amount"}
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
         />
-      </div>
-      <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="label">Label</Label>
+      </Field>
+      <Field>
+        <FieldLabel htmlFor="label">Label</FieldLabel>
         <Input
           id="label"
           placeholder={"Label"}
           value={label}
           onChange={(e) => setLabel(e.target.value)}
         />
-      </div>
+      </Field>
 
-      <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="message">Message to attach</Label>
+      <Field>
+        <FieldLabel htmlFor="message">Message to attach</FieldLabel>
         <Input
           id="message"
           placeholder={"Message"}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
-      </div>
-    </div>
+      </Field>
+    </FieldGroup>
   );
 };

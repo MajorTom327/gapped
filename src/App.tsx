@@ -20,8 +20,8 @@ function App() {
 
   return (
     <div className="flex h-full min-h-screen flex-col">
-      <div className="flex grow flex-col-reverse justify-end gap-2 p-4 sm:flex-row">
-        <Card className="w-full sm:w-1/2 md:w-1/4">
+      <div className="grid grow grid-cols-1 flex-col-reverse justify-end gap-2 p-4 md:grid-cols-3 lg:grid-cols-4">
+        <Card className="order-2 w-full md:order-1">
           <CardHeader>
             <CardTitle>Configure your QR Code</CardTitle>
           </CardHeader>
@@ -30,7 +30,11 @@ function App() {
           </CardContent>
         </Card>
 
-        <Card className={"group w-full sm:w-1/2 md:w-3/4"}>
+        <Card
+          className={
+            "group order-1 w-full md:order-2 md:col-span-2 lg:col-span-3"
+          }
+        >
           <CardHeader>
             <CardTitle>QR Code</CardTitle>
           </CardHeader>
