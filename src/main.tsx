@@ -1,29 +1,18 @@
-import {StrictMode} from 'react'
-import {createRoot} from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
-import {RouterProvider} from "react-router";
-import {createBrowserRouter} from "react-router-dom";
-import {TooltipProvider} from "~/components/ui/tooltip.tsx";
-import { NuqsAdapter } from 'nuqs/adapters/react-router/v6'
+import { NuqsAdapter } from "nuqs/adapters/react";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { TooltipProvider } from "~/components/ui/tooltip.tsx";
+import App from "./App.tsx";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: (
-      <App/>
-    ),
-  },
-]);
-
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <NuqsAdapter>
-
-    <TooltipProvider>
-
-      <RouterProvider router={router}/>
-    </TooltipProvider>
-    </NuqsAdapter>
-  </StrictMode>,
-)
+const rootElement = document.getElementById("root");
+if (rootElement) {
+  createRoot(rootElement).render(
+    <StrictMode>
+      <NuqsAdapter>
+        <TooltipProvider>
+          <App />
+        </TooltipProvider>
+      </NuqsAdapter>
+    </StrictMode>,
+  );
+}

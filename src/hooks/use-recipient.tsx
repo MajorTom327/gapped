@@ -1,5 +1,6 @@
 import { useQueryState } from "nuqs";
+import { BASE_ADDRESS } from "~/lib/constants";
 
 export const useRecipient = () => {
-    return useQueryState("recipient", { defaultValue: "0xE4a39B45f373FB8ae5D8932AC299Ab5206Cc718D" });
-}
+  return useQueryState("recipient", { defaultValue: BASE_ADDRESS });
+};
